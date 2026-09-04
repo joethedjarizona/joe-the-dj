@@ -181,7 +181,15 @@
   }
 
   /* ---------- ABOUT ---------- */
+.about-grid{display:grid; grid-template-columns:1.2fr 0.8fr; gap:clamp(1.5rem,4vw,2.5rem); align-items:start;}
+  @media (max-width:800px){.about-grid{grid-template-columns:1fr;}}
   .about-lede{color:var(--paper-dim); max-width:62ch; font-size:clamp(1rem,1.6vw,1.1rem);}
+  .about-photos{display:grid; grid-template-columns:1fr 1fr; gap:0.9rem;}
+  @media (max-width:520px){.about-photos{grid-template-columns:1fr;}}
+  .about-photos img{
+    width:100%; aspect-ratio:3/4; object-fit:cover; object-position:top center;
+    border-radius:8px; border:1px solid var(--line-strong); display:block;
+  }
 
   /* ---------- TICKET CARD (perforated) ---------- */
   .tickets{display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem;}
@@ -332,7 +340,13 @@
         <p class="eyebrow">About</p>
         <h2>Behind the Decks</h2>
       </div>
-      <p class="about-lede">Joe reads a room like a musician, because most nights he is one — when he's not open-format DJing weddings and parties around the Valley, he's fronting the Arizona indie rock band Alibi. That background shapes the sets: song selection and transitions that actually track the night's energy, from a quiet dinner hour to a room that won't leave the floor at midnight. Tell him the vibe and the must-plays (and the do-not-plays) — he'll handle the rest, mic included.</p>
+<div class="about-grid">
+        <p class="about-lede">Joe reads a room like a musician, because most nights he is one — when he's not open-format DJing weddings and parties around the Valley, he's fronting the Arizona indie rock band Alibi. That background shapes the sets: song selection and transitions that actually track the night's energy, from a quiet dinner hour to a room that won't leave the floor at midnight. Tell him the vibe and the must-plays (and the do-not-plays) — he'll handle the rest, mic included.</p>
+        <div class="about-photos">
+          <img src="images/IMG_0641.JPG" alt="Joe performing live with a microphone at a wedding reception">
+          <img src="images/IMG_0649.JPG" alt="Joe in downtown Phoenix">
+        </div>
+</div>
     </section>
 
     <section id="services">
