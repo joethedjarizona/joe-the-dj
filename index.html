@@ -135,7 +135,12 @@
   }
   .hero-ctas{display:flex; gap:0.9rem; flex-wrap:wrap;}
 
-  .vinyl-wrap{display:flex; justify-content:center; align-items:center;}
+  .vinyl-wrap{
+    display:flex; justify-content:center; align-items:center;
+    width:min(280px, 60vw); aspect-ratio:1/1; border-radius:50%; overflow:hidden; position:relative;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,0.7), inset 0 0 0 1px var(--line);
+    border:1px solid var(--line-strong);
+  }
   .vinyl{
     width:min(280px, 60vw); aspect-ratio:1/1; border-radius:50%;
     background:
@@ -157,10 +162,10 @@
   @keyframes spin{ to{ transform:rotate(360deg); } }
 
   .hero-photo{
-    width:min(280px, 60vw); aspect-ratio:1/1; border-radius:50%;
+    width:100%; height:100%;
     object-fit:cover; object-position:top center;
-    box-shadow:0 30px 60px -20px rgba(0,0,0,0.7), inset 0 0 0 1px var(--line);
-    border:1px solid var(--line-strong);
+    transform:scale(1.45); transform-origin:53% 40%;
+    display:block;
   }
 
   /* ---------- SECTION HEADS ---------- */
