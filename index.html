@@ -1,0 +1,514 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Joe the DJ</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Archivo:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap">
+<style>
+  :root{
+    --ink:#0C0A10;
+    --ink-2:#161320;
+    --ink-3:#201B2E;
+    --paper:#F6EFE2;
+    --paper-dim:#B9AFA0;
+    --gold:#C9974A;
+    --gold-dim:#8F6B33;
+    --amber:#FFC15E;
+    --line: rgba(246,239,226,0.14);
+    --line-strong: rgba(246,239,226,0.28);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--paper);
+    font-family:"Archivo", ui-sans-serif, system-ui, sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  h1,h2,h3, .display{
+    font-family:"Bebas Neue", "Archivo", sans-serif;
+    font-weight:400;
+    letter-spacing:0.02em;
+    text-wrap:balance;
+    margin:0;
+  }
+
+  .mono{
+    font-family:"Space Mono", ui-monospace, monospace;
+  }
+
+  .eyebrow{
+    font-family:"Space Mono", monospace;
+    text-transform:uppercase;
+    letter-spacing:0.18em;
+    font-size:0.72rem;
+    color:var(--amber);
+  }
+
+  a{color:inherit;}
+
+  .wrap{
+    max-width:1100px;
+    margin:0 auto;
+    padding:0 clamp(1.25rem, 4vw, 2.5rem);
+  }
+
+  section{
+    padding:clamp(3.5rem,8vw,6.5rem) 0;
+    border-bottom:1px solid var(--line);
+  }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky; top:0; z-index:40;
+    background:rgba(12,10,16,0.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:1100px; margin:0 auto;
+    padding:0.9rem clamp(1.25rem,4vw,2.5rem);
+    display:flex; align-items:center; justify-content:space-between; gap:1rem;
+  }
+  .logo{
+    font-family:"Bebas Neue", sans-serif;
+    font-size:1.5rem;
+    letter-spacing:0.06em;
+    display:flex; align-items:center; gap:0.5rem;
+    text-decoration:none;
+  }
+  .logo .dot{width:8px;height:8px;border-radius:50%;background:var(--gold);display:inline-block;}
+  .nav-links{display:flex; gap:clamp(0.9rem,2vw,1.7rem); align-items:center; font-size:0.92rem;}
+  .nav-links a{text-decoration:none; color:var(--paper-dim); transition:color .15s ease;}
+  .nav-links a:hover, .nav-links a:focus-visible{color:var(--paper);}
+  .nav-links a:focus-visible, a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible{
+    outline:2px solid var(--amber); outline-offset:3px; border-radius:2px;
+  }
+  @media (max-width: 640px){ .nav-links a.hide-mobile{display:none;} }
+
+  .btn{
+    display:inline-flex; align-items:center; gap:0.5rem;
+    font-family:"Space Mono", monospace;
+    text-transform:uppercase; letter-spacing:0.08em; font-size:0.78rem;
+    padding:0.85rem 1.4rem;
+    border-radius:2px;
+    text-decoration:none;
+    cursor:pointer;
+    border:1px solid transparent;
+    transition:transform .15s ease, background .15s ease, border-color .15s ease;
+  }
+  .btn:hover{transform:translateY(-2px);}
+  .btn-solid{background:var(--gold); color:var(--ink);}
+  .btn-solid:hover{background:#DCAE61;}
+  .nav-links a.btn-solid, .nav-links a.btn-solid:hover{color:var(--ink);}
+  .btn-ghost{border-color:var(--line-strong); color:var(--paper);}
+  .btn-ghost:hover{border-color:var(--paper);}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding-top:clamp(3.5rem,9vw,6rem);
+    display:grid; grid-template-columns:1.3fr 0.9fr; gap:clamp(2rem,5vw,3rem);
+    align-items:center;
+  }
+  @media (max-width: 800px){ .hero{grid-template-columns:1fr;} }
+  .hero h1{
+    font-size:clamp(3.4rem, 11vw, 7.2rem);
+    line-height:0.92;
+    color:var(--paper);
+  }
+  .hero h1 span{color:var(--gold);}
+  .hero p.lede{
+    max-width:46ch;
+    color:var(--paper-dim);
+    font-size:clamp(1rem,1.6vw,1.15rem);
+    margin:1.4rem 0 2rem;
+  }
+  .hero-ctas{display:flex; gap:0.9rem; flex-wrap:wrap;}
+
+  .vinyl-wrap{display:flex; justify-content:center; align-items:center;}
+  .vinyl{
+    width:min(280px, 60vw); aspect-ratio:1/1; border-radius:50%;
+    background:
+      repeating-radial-gradient(circle at center, #050409 0 2px, #100d16 2px 4px);
+    box-shadow:0 30px 60px -20px rgba(0,0,0,0.7), inset 0 0 0 1px var(--line);
+    position:relative;
+    animation:spin 9s linear infinite;
+  }
+  .vinyl::before{
+    content:"";
+    position:absolute; inset:38%;
+    border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #ffd27a, var(--amber) 55%, var(--gold-dim) 100%);
+    box-shadow:0 0 0 1px rgba(0,0,0,0.35);
+  }
+  .vinyl::after{
+    content:""; position:absolute; inset:47%; border-radius:50%; background:var(--ink);
+  }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+
+  /* ---------- SECTION HEADS ---------- */
+  .head{margin-bottom:clamp(2rem,5vw,3rem);}
+  .head h2{font-size:clamp(2.1rem,5.5vw,3.4rem); margin-top:0.35rem;}
+
+  /* ---------- MARQUEE ---------- */
+  .marquee-band{
+    border-bottom:1px solid var(--line);
+    background:var(--ink-2);
+    overflow:hidden;
+    padding:1rem 0;
+  }
+  .marquee-track{
+    display:flex; width:max-content; gap:2.5rem;
+    animation:marquee 26s linear infinite;
+    font-family:"Space Mono", monospace;
+    text-transform:uppercase; letter-spacing:0.12em; font-size:0.85rem; color:var(--paper-dim);
+  }
+  .marquee-track span{display:flex; align-items:center; gap:2.5rem;}
+  .marquee-track .sep{color:var(--gold);}
+  @keyframes marquee{ from{transform:translateX(0);} to{transform:translateX(-50%);} }
+  @media (prefers-reduced-motion: reduce){
+    .marquee-track{animation:none; overflow-x:auto;}
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about-lede{color:var(--paper-dim); max-width:62ch; font-size:clamp(1rem,1.6vw,1.1rem);}
+
+  /* ---------- TICKET CARD (perforated) ---------- */
+  .tickets{display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem;}
+  @media (max-width:900px){.tickets{grid-template-columns:1fr;}}
+  .ticket{
+    position:relative;
+    background:var(--ink-2);
+    border:1px solid var(--line);
+    border-radius:6px;
+    display:flex; flex-direction:column;
+    transition:transform .18s ease, border-color .18s ease;
+  }
+  .ticket:hover{transform:translateY(-4px); border-color:var(--line-strong);}
+  .ticket-top{padding:1.5rem 1.5rem 1.25rem;}
+  .ticket-top .eyebrow{margin-bottom:0.6rem; display:block;}
+  .ticket-top h3{font-size:1.6rem; margin-bottom:0.6rem;}
+  .ticket-top ul{margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:0.45rem;}
+  .ticket-top li{color:var(--paper-dim); font-size:0.92rem; padding-left:1.1rem; position:relative;}
+  .ticket-top li::before{content:"—"; position:absolute; left:0; color:var(--gold);}
+
+  .perf{
+    position:relative;
+    border-top:1px dashed var(--line-strong);
+    margin:0 0.25rem;
+  }
+  .perf::before, .perf::after{
+    content:""; position:absolute; top:-8px; width:16px; height:16px; border-radius:50%;
+    background:var(--ink);
+  }
+  .perf::before{left:-8px;}
+  .perf::after{right:-8px;}
+
+  .ticket-bottom{
+    padding:1.25rem 1.5rem 1.5rem;
+    display:flex; align-items:center; justify-content:space-between; gap:1rem;
+  }
+  .ticket-bottom .price{font-family:"Space Mono",monospace; color:var(--paper); font-size:1.05rem;}
+  .ticket-bottom .price small{display:block; color:var(--paper-dim); font-size:0.7rem; text-transform:uppercase; letter-spacing:0.1em; margin-top:0.15rem;}
+
+  .pill{
+    font-family:"Space Mono",monospace; font-size:0.65rem; text-transform:uppercase; letter-spacing:0.08em;
+    color:var(--ink); background:var(--amber); padding:0.3rem 0.55rem; border-radius:20px; white-space:nowrap;
+  }
+
+  /* ---------- REVIEWS ---------- */
+  .reviews{display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem;}
+  @media (max-width:900px){.reviews{grid-template-columns:1fr;}}
+  .review{
+    background:var(--ink-2); border:1px solid var(--line); border-radius:6px; padding:1.5rem;
+    display:flex; flex-direction:column; gap:1rem; min-height:100%;
+  }
+  .review-top{display:flex; justify-content:space-between; align-items:center;}
+  .stars{color:var(--amber); letter-spacing:0.15em; font-size:0.95rem;}
+  .review p{color:var(--paper-dim); font-style:italic; font-size:0.95rem; flex-grow:1;}
+  .review .attr{font-family:"Space Mono",monospace; font-size:0.78rem; color:var(--paper-dim);}
+
+  /* ---------- BOOKING ---------- */
+  .booking{
+    display:grid; grid-template-columns:1fr 1fr;
+    background:var(--ink-2); border:1px solid var(--line); border-radius:8px;
+    overflow:hidden;
+  }
+  @media (max-width:800px){.booking{grid-template-columns:1fr;}}
+  .booking-info{
+    padding:clamp(1.75rem,4vw,2.5rem);
+    background:
+      radial-gradient(circle at 20% 15%, rgba(201,151,74,0.16), transparent 55%),
+      var(--ink-3);
+    display:flex; flex-direction:column; gap:1.1rem; justify-content:center;
+    border-right:1px dashed var(--line-strong);
+  }
+  @media (max-width:800px){.booking-info{border-right:none; border-bottom:1px dashed var(--line-strong);}}
+  .booking-info h2{font-size:clamp(1.9rem,4vw,2.6rem);}
+  .booking-info p{color:var(--paper-dim); max-width:38ch;}
+  .booking-form{padding:clamp(1.75rem,4vw,2.5rem); display:flex; flex-direction:column; gap:1rem;}
+  .row2{display:grid; grid-template-columns:1fr 1fr; gap:1rem;}
+  @media (max-width:520px){.row2{grid-template-columns:1fr;}}
+  label{
+    font-family:"Space Mono",monospace; font-size:0.68rem; text-transform:uppercase; letter-spacing:0.1em;
+    color:var(--paper-dim); display:block; margin-bottom:0.4rem;
+  }
+  input, select, textarea{
+    width:100%;
+    background:var(--ink);
+    border:1px solid var(--line-strong);
+    border-radius:4px;
+    padding:0.75rem 0.85rem;
+    color:var(--paper);
+    font-family:"Archivo",sans-serif;
+    font-size:0.95rem;
+  }
+  input:focus, select:focus, textarea:focus{border-color:var(--gold); outline:none;}
+  textarea{resize:vertical; min-height:90px;}
+  .field{display:flex; flex-direction:column;}
+  .form-foot{display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-top:0.4rem;}
+  .form-note{font-size:0.82rem; color:var(--paper-dim);}
+  .form-note a{color:var(--amber); text-decoration:underline;}
+  #form-status{font-size:0.85rem; color:var(--amber); min-height:1.2em;}
+
+  /* ---------- FOOTER ---------- */
+  footer{padding:2.5rem 0 3rem;}
+  .foot-inner{display:flex; justify-content:space-between; align-items:center; gap:1rem; flex-wrap:wrap;}
+  .foot-links{display:flex; gap:1.5rem; font-family:"Space Mono",monospace; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.08em;}
+  .foot-links a{text-decoration:none; color:var(--paper-dim);}
+  .foot-links a:hover{color:var(--paper);}
+  .fineprint{color:var(--paper-dim); font-size:0.78rem; font-family:"Space Mono",monospace;}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a class="logo" href="#top"><span class="dot"></span>JOE&nbsp;THE&nbsp;DJ</a>
+    <div class="nav-links">
+      <a href="#about" class="hide-mobile">About</a>
+      <a href="#services" class="hide-mobile">Services</a>
+      <a href="#reviews" class="hide-mobile">Reviews</a>
+      <a href="#book" class="btn btn-solid">Schedule a Call</a>
+    </div>
+  </div>
+</nav>
+
+<main id="top">
+  <div class="wrap">
+    <section class="hero" style="border-bottom:none;">
+      <div>
+        <p class="eyebrow">Phoenix, AZ · DJ, Emcee and Live Musician</p>
+        <h1>JOE <span>THE DJ</span></h1>
+        <p class="lede">Weddings, rehearsal dinners, and private events across the Valley — music built around your crowd, not a preset playlist.</p>
+        <div class="hero-ctas">
+          <a href="#book" class="btn btn-solid">Check Your Date</a>
+          <a href="#reviews" class="btn btn-ghost">Hear From Clients</a>
+        </div>
+      </div>
+      <div class="vinyl-wrap"><div class="vinyl" role="img" aria-label="Spinning vinyl record"></div></div>
+    </section>
+  </div>
+
+  <div class="marquee-band" aria-hidden="true">
+    <div class="marquee-track">
+      <span>WEDDINGS <span class="sep">•</span> PRIVATE PARTIES <span class="sep">•</span> CORPORATE EVENTS <span class="sep">•</span> QUINCEAÑERAS <span class="sep">•</span> CLUBS &amp; NIGHTLIFE <span class="sep">•</span> BIRTHDAYS <span class="sep">•</span></span>
+      <span>WEDDINGS <span class="sep">•</span> PRIVATE PARTIES <span class="sep">•</span> CORPORATE EVENTS <span class="sep">•</span> QUINCEAÑERAS <span class="sep">•</span> CLUBS &amp; NIGHTLIFE <span class="sep">•</span> BIRTHDAYS <span class="sep">•</span></span>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <section id="about">
+      <div class="head">
+        <p class="eyebrow">About</p>
+        <h2>Behind the Decks</h2>
+      </div>
+      <p class="about-lede">Joe reads a room like a musician, because most nights he is one — when he's not open-format DJing weddings and parties around the Valley, he's fronting the Arizona indie rock band Alibi. That background shapes the sets: song selection and transitions that actually track the night's energy, from a quiet dinner hour to a room that won't leave the floor at midnight. Tell him the vibe and the must-plays (and the do-not-plays) — he'll handle the rest, mic included.</p>
+    </section>
+
+    <section id="services">
+      <div class="head">
+        <p class="eyebrow">Packages</p>
+        <h2>Book The Night</h2>
+      </div>
+      <div class="tickets">
+        <div class="ticket">
+          <div class="ticket-top">
+            <span class="eyebrow">Package One</span>
+            <h3>Live Music</h3>
+            <ul>
+              <li>Live solo performance</li>
+              <li>Ideal for ceremony or cocktail hour</li>
+              <li>Booked by the hour</li>
+            </ul>
+          </div>
+          <div class="perf"></div>
+          <div class="ticket-bottom">
+            <span class="price">$500<small>Per hour</small></span>
+            <a href="#book" class="btn btn-ghost">Inquire</a>
+          </div>
+        </div>
+        <div class="ticket">
+          <div class="ticket-top">
+            <span class="eyebrow">Package Two</span>
+            <h3>DJ + Emcee</h3>
+            <ul>
+              <li>Ceremony audio included</li>
+              <li>Full, unlimited reception coverage</li>
+              <li>MC for toasts, intros &amp; timeline</li>
+            </ul>
+          </div>
+          <div class="perf"></div>
+          <div class="ticket-bottom">
+            <span class="price">$2,500<small>Flat rate</small></span>
+            <a href="#book" class="btn btn-ghost">Inquire</a>
+          </div>
+        </div>
+        <div class="ticket">
+          <div class="ticket-top">
+            <span class="eyebrow">Package Three</span>
+            <h3>"The Total Package"</h3>
+            <ul>
+              <li>Live music for cocktail hour</li>
+              <li>Full DJ + Emcee reception coverage</li>
+              <li>Packages One &amp; Two, combined</li>
+            </ul>
+          </div>
+          <div class="perf"></div>
+          <div class="ticket-bottom">
+            <span class="price">$3,000<small>Flat rate</small></span>
+            <a href="#book" class="btn btn-ghost">Inquire</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="reviews">
+      <div class="head">
+        <p class="eyebrow">Reviews</p>
+        <h2>Word From The Floor</h2>
+      </div>
+      <div class="reviews">
+        <div class="review">
+          <div class="review-top"><span class="stars">★★★★★</span><span class="pill">Add your own</span></div>
+          <p>"Drop in the line a couple said about their reception — the specific detail (the song, the moment) is what makes it land."</p>
+          <span class="attr">— Couple's names, wedding date</span>
+        </div>
+        <div class="review">
+          <div class="review-top"><span class="stars">★★★★★</span><span class="pill">Add your own</span></div>
+          <p>"Add a quote from an event planner or coordinator about how smoothly the night ran."</p>
+          <span class="attr">— Name, company</span>
+        </div>
+        <div class="review">
+          <div class="review-top"><span class="stars">★★★★★</span><span class="pill">Add your own</span></div>
+          <p>"This is where a guest's shoutout goes — a DM or comment works fine, quoted with permission."</p>
+          <span class="attr">— Name</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="book" style="border-bottom:none;">
+      <div class="head">
+        <p class="eyebrow">Booking</p>
+        <h2>Lock In Your Date</h2>
+      </div>
+      <div class="booking">
+        <div class="booking-info">
+          <h2>Let's talk<br>about your night.</h2>
+          <p>Send over the details and Joe will follow up to lock in your date, run through logistics, and build the set list together.</p>
+          <p class="mono" style="font-size:0.85rem; color:var(--paper-dim);">Usually replies within 1–2 days.</p>
+        </div>
+        <form class="booking-form" id="booking-form">
+          <div class="row2">
+            <div class="field">
+              <label for="name">Name</label>
+              <input id="name" name="name" type="text" required>
+            </div>
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" required>
+            </div>
+          </div>
+          <div class="row2">
+            <div class="field">
+              <label for="phone">Phone (optional)</label>
+              <input id="phone" name="phone" type="tel">
+            </div>
+            <div class="field">
+              <label for="date">Event date</label>
+              <input id="date" name="date" type="date">
+            </div>
+          </div>
+          <div class="field">
+            <label for="type">Event type</label>
+            <select id="type" name="type">
+              <option>Wedding</option>
+              <option>Private party</option>
+              <option>Corporate event</option>
+              <option>Club / nightlife</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="message">Tell Joe about the night</label>
+            <textarea id="message" name="message" placeholder="Venue, guest count, vibe, must-play songs..."></textarea>
+          </div>
+          <div class="form-foot">
+            <button type="submit" class="btn btn-solid" style="border:none;">Send Inquiry</button>
+            <span class="form-note">Or <a href="mailto:josephricciardi@icloud.com">email Joe directly</a></span>
+          </div>
+          <p id="form-status" role="status"></p>
+        </form>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <div class="wrap foot-inner">
+      <a class="logo" href="#top"><span class="dot"></span>JOE&nbsp;THE&nbsp;DJ</a>
+      <div class="foot-links">
+        <a href="#" rel="noopener">Instagram</a>
+        <a href="#" rel="noopener">TikTok</a>
+      </div>
+      <span class="fineprint">© <span id="year"></span> Joe the DJ · Phoenix, AZ</span>
+    </div>
+  </footer>
+</main>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const form = document.getElementById('booking-form');
+  const status = document.getElementById('form-status');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(form).entries());
+    const subject = 'Joe the DJ Inquiry — ' + (data.type || 'Event') + ' — ' + (data.name || '');
+    const bodyLines = [
+      'Name: ' + (data.name || ''),
+      'Email: ' + (data.email || ''),
+      'Phone: ' + (data.phone || '—'),
+      'Event date: ' + (data.date || '—'),
+      'Event type: ' + (data.type || '—'),
+      '',
+      'Details:',
+      data.message || '—'
+    ];
+    const mailto = 'mailto:josephricciardi@icloud.com'
+      + '?subject=' + encodeURIComponent(subject)
+      + '&body=' + encodeURIComponent(bodyLines.join('\n'));
+    window.location.href = mailto;
+    status.textContent = 'Opening your email client to send this to Joe...';
+  });
+</script>
+</body>
+</html>
