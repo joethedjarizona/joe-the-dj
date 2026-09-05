@@ -7,16 +7,16 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Archivo:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap">
 <style>
   :root{
-    --ink:#0C0A10;
-    --ink-2:#161320;
-    --ink-3:#201B2E;
-    --paper:#F6EFE2;
-    --paper-dim:#B9AFA0;
-    --gold:#EE9779;
-    --gold-dim:#B06A50;
-    --amber:#EE9779;
-    --line: rgba(246,239,226,0.14);
-    --line-strong: rgba(246,239,226,0.28);
+    --ink:#EE9779;
+    --ink-2:#E2835C;
+    --ink-3:#D6754C;
+    --paper:#171325;
+    --paper-dim:#4A3D50;
+    --gold:#0C0A10;
+    --gold-dim:#241E30;
+    --amber:#0C0A10;
+    --line: rgba(20,16,28,0.16);
+    --line-strong: rgba(20,16,28,0.32);
   }
 
   *{box-sizing:border-box;}
@@ -71,7 +71,7 @@
   /* ---------- NAV ---------- */
   nav{
     position:sticky; top:0; z-index:40;
-    background:rgba(12,10,16,0.86);
+        background:rgba(238,151,121,0.86);
     backdrop-filter:blur(10px);
     border-bottom:1px solid var(--line);
   }
@@ -109,7 +109,7 @@
   }
   .btn:hover{transform:translateY(-2px);}
   .btn-solid{background:var(--gold); color:var(--ink);}
-  .btn-solid:hover{background:#DCAE61;}
+    .btn-solid:hover{background:#241E30;}
   .nav-links a.btn-solid, .nav-links a.btn-solid:hover{color:var(--ink);}
   .btn-ghost{border-color:var(--line-strong); color:var(--paper);}
   .btn-ghost:hover{border-color:var(--paper);}
@@ -260,7 +260,7 @@
   .booking-info{
     padding:clamp(1.75rem,4vw,2.5rem);
 background:
-      linear-gradient(180deg, rgba(12,10,16,0.35), rgba(12,10,16,0.88)),
+      linear-gradient(180deg, rgba(238,151,121,0.35), rgba(238,151,121,0.92)),
       url("images/IMG_0649%202.jpeg") center 25%/cover no-repeat;
     display:flex; flex-direction:column; gap:1.1rem; justify-content:center;
     border-right:1px dashed var(--line-strong);
