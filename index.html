@@ -445,7 +445,7 @@ background:
           <p>Send over the details and Joe will follow up to lock in your date, run through logistics, and build the set list together.</p>
           <p class="mono" style="font-size:0.85rem; color:var(--paper-dim);">Usually replies within 1–2 days.</p>
         </div>
-        <form class="booking-form" id="booking-form">
+        <form class="booking-form" id="booking-form" action="https://formspree.io/f/maeydndd" method="POST">
           <div class="row2">
             <div class="field">
               <label for="name">Name</label>
@@ -504,28 +504,32 @@ background:
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  const form = document.getElementById('booking-form');
-  const status = document.getElementById('form-status');
-  form.addEventListener('submit', function(e){
-    e.preventDefault();
-    const data = Object.fromEntries(new FormData(form).entries());
-    const subject = 'Joe the DJ Inquiry — ' + (data.type || 'Event') + ' — ' + (data.name || '');
-    const bodyLines = [
-      'Name: ' + (data.name || ''),
-      'Email: ' + (data.email || ''),
-      'Phone: ' + (data.phone || '—'),
-      'Event date: ' + (data.date || '—'),
-      'Event type: ' + (data.type || '—'),
-      '',
-      'Details:',
-      data.message || '—'
-    ];
-    const mailto = 'mailto:joethedjarizona@gmail.com'
-      + '?subject=' + encodeURIComponent(subject)
-      + '&body=' + encodeURIComponent(bodyLines.join('\n'));
-    window.location.href = mailto;
-    status.textContent = 'Opening your email client to send this to Joe...';
-  });
+const form = document.getElementById('booking-form');
+    const status = document.getElementById('form-status');
+    form.addEventListener('submit', function(e){
+          e.preventDefault();
+          status.textContent = 'Sending...';
+          fetch(form.action, {
+                  method: 'POST',
+                  body: new FormData(form),
+                  headers: { 'Accept': 'application/json' }
+          }).then(function(response){
+                  if (response.ok) {
+                            status.textContent = 'Thanks! Your inquiry has been sent to Joe.';
+                            form.reset();
+                  } else {
+                            response.json().then(function(data){
+                                        if (data && data.errors) {
+                                                      status.textContent = data.errors.map(function(err){ return err.message; }).join(', ');
+                                        } else {
+                                                      status.textContent = 'Oops! There was a problem sending your inquiry.';
+                                        }
+                            });
+                  }
+          }).catch(function(){
+                  status.textContent = 'Oops! There was a problem sending your inquiry.';
+          });
+    });
 </script>
 </body>
 </html>
